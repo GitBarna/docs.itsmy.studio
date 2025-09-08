@@ -1,18 +1,20 @@
 # Conditions
-Condition is a way to check if a certain condition is met before executing an action or something else.
+Just like actions, conditions are defined by an `id` and a set of `args`. Condition is a way to check if a certain condition is met before executing an action or something else.
 You can define conditions in script, custom commands, message components, commands, and more.
 
 ```yaml
 - id: hasPermission
-  value: "MANAGE_MESSAGES" # Permission ID or name
-  invert: true # Optional
+  args:
+    value: "MANAGE_MESSAGES" # Permission ID or name
+    invert: true # Optional
 ```
 As shown in the example above, all conditions can include an optional `invert` argument:
 
 ```yaml
 - id: memberCountAbove
-  amount: 100
-  invert: true # Optional
+  args:
+    amount: 100
+    invert: true # Optional
 ```
 
 Setting `invert: true` will negate the condition, meaning it will only be true if the original condition is false.
@@ -34,7 +36,8 @@ actions:
       value: "✅"
     conditions:
       - id: hasPermission
-        value: "MANAGE_MESSAGES"
+        args:
+          value: "MANAGE_MESSAGES"
         not-met-actions:
           - id: addReaction
             args:
@@ -51,16 +54,20 @@ Check if any of the conditions are true.
 <CodeGroup>
 ```yaml {{ title: 'Usage' }}
 id: anyOf
-conditions: #array of conditions
+args:
+  conditions: #array of conditions
 ```
 ```yaml {{ title: 'Example' }}
 conditions:
   - id: anyOf
-    conditions: 
-      - id: memberCountAbove
-        amount: 100
-      - id: memberCountBelow
-        amount: 50
+    args:
+      conditions: 
+        - id: memberCountAbove
+          args:
+            amount: 100
+        - id: memberCountBelow
+          args:
+            amount: 50
 ```
 </CodeGroup>
 
@@ -70,20 +77,24 @@ Check if at least a certain amount of conditions are true.
 <CodeGroup>
 ```yaml {{ title: 'Usage' }}
 id: atLeastOf
-amount: #number, the amount of conditions that must be true
-conditions: #array of conditions
+args:
+  amount: #number, the amount of conditions that must be true
+  conditions: #array of conditions
 ```
 
 ```yaml {{ title: 'Example' }}
 conditions:
   - id: atLeastOf
-    amount: 2
-    conditions: 
-      - id: memberCountAbove
-        amount: 100
-      - id: '!isBot'
-      - id: 'isUser'
-        value: "123456789012345678"
+    args:
+      amount: 2
+      conditions: 
+        - id: memberCountAbove
+          args:
+            amount: 100
+        - id: '!isBot'
+        - id: 'isUser'
+          args:
+            value: "123456789012345678"
 ```
 </CodeGroup>
 
@@ -92,12 +103,14 @@ Check if a user has more than a certain amount of coins.
 <CodeGroup>
 ```yaml {{ title: 'Usage' }}
 id: coinsAbove
-amount: #number, the amount of coins to check
+args:
+  amount: #number, the amount of coins to check
 ```
 ```yaml {{ title: 'Example' }}
 conditions:
   - id: coinsAbove
-    amount: 1000 # Check if the user has more than 1000 coins
+    args:
+      amount: 1000 # Check if the user has more than 1000 coins
 ```
 </CodeGroup>
 
@@ -106,12 +119,14 @@ Check if a user has less than a certain amount of coins.
 <CodeGroup>
 ```yaml {{ title: 'Usage' }}
 id: coinsBelow
-amount: #number, the amount of coins to check
+args:
+  amount: #number, the amount of coins to check
 ```
 ```yaml {{ title: 'Example' }}
 conditions:
   - id: coinsBelow
-    amount: 1000 # Check if the user has less than 1000 coins
+    args:
+      amount: 1000 # Check if the user has less than 1000 coins
 ```
 </CodeGroup>
 
@@ -121,19 +136,22 @@ Check if the content of a trigger contains certain text.
 <CodeGroup>
 ```yaml {{ title: 'Usage' }}
 id: contentContains
-value: #string or array of strings, the text to check
-ignore-case: #boolean, if the check should be case-insensitive (optional)
+args:
+  value: #string or array of strings, the text to check
+  ignore-case: #boolean, if the check should be case-insensitive (optional)
 ```
 
 ```yaml {{ title: 'Example' }}
 conditions:
   - id: contentContains
-    value: # Check if the content contains "Hello" or "World"
-      - "Hello"
-      - "World"
-    ignore-case: true # Optional
+    args:
+      value: # Check if the content contains "Hello" or "World"
+        - "Hello"
+        - "World"
+      ignore-case: true # Optional
   - id: contentContains
-    value: "Hello"
+    args:
+      value: "Hello"
 ```
 </CodeGroup>
 
@@ -142,19 +160,22 @@ Check if the content of a trigger ends with certain text.
 <CodeGroup>
 ```yaml {{ title: 'Usage' }}
 id: contentEndsWith
-value: #string or array of strings, the text to check
-ignore-case: #boolean, if the check should be case-insensitive (optional)
+args:
+  value: #string or array of strings, the text to check
+  ignore-case: #boolean, if the check should be case-insensitive (optional)
 ```
 
 ```yaml {{ title: 'Example' }}
 conditions:
   - id: contentEndsWith
-    value: # Check if the content ends with "Hello" or "World"
-      - "Hello"
-      - "World"
-    ignore-case: true # Optional
+    args:
+      value: # Check if the content ends with "Hello" or "World"
+        - "Hello"
+        - "World"
+      ignore-case: true # Optional
   - id: contentEndsWith
-    value: "Hello"
+    args:
+      value: "Hello"
 ```
 </CodeGroup>
 
@@ -164,18 +185,21 @@ Check if the content of a trigger equals a certain text.
 <CodeGroup>
 ```yaml {{ title: 'Usage' }}
 id: contentEquals
-value: #string or array of strings, the text to check
-ignore-case: #boolean, if the check should be case-insensitive (optional)
+args:
+  value: #string or array of strings, the text to check
+  ignore-case: #boolean, if the check should be case-insensitive (optional)
 ```
 ```yaml {{ title: 'Example' }}
 conditions:
   - id: contentEquals
-    value: # Check if the content is equal to "Hello" or "World"
-      - "Hello"
-      - "World"
-    ignore-case: true  # Optional
+    args:
+      value: # Check if the content is equal to "Hello" or "World"
+        - "Hello"
+        - "World"
+      ignore-case: true  # Optional
   - id: content
-    value: "Hello"
+    args:
+      value: "Hello"
 ```
 </CodeGroup>
 
@@ -185,13 +209,15 @@ Check if the content of a trigger is above a certain length.
 <CodeGroup>
 ```yaml {{ title: 'Usage' }}
 id: contentLengthAbove
-amount: #number, the length to check
+args:
+  amount: #number, the length to check
 ```
 
 ```yaml {{ title: 'Example' }}
 conditions:
   - id: contentLengthAbove
-    amount: 10 # Check if the content length is above 10 characters
+    args:
+      amount: 10 # Check if the content length is above 10 characters
 ```
 </CodeGroup>
 
@@ -200,12 +226,14 @@ Check if the content of a trigger is below a certain length.
 <CodeGroup>
 ```yaml {{ title: 'Usage' }}
 id: contentLengthBelow
-amount: #number, the length to check
+args:
+  amount: #number, the length to check
 ``` 
 ```yaml {{ title: 'Example' }}
 conditions:
   - id: contentLengthBelow
-    amount: 10 # Check if the content length is below 10 characters
+    args:
+      amount: 10 # Check if the content length is below 10 characters
 ```
 </CodeGroup>
 
@@ -215,18 +243,21 @@ Check if a content of an action starts with a certain text.
 <CodeGroup>
 ```yaml {{ title: 'Usage' }}
 id: contentStartsWith
-value: #string or array of strings, the text to check
-ignore-case: #boolean, if the check should be case-insensitive (optional)
+args:
+  value: #string or array of strings, the text to check
+  ignore-case: #boolean, if the check should be case-insensitive (optional)
 ```
 ```yaml {{ title: 'Example' }}
 conditions:
   - id: contentStartsWith
-    value: 
-      - "Hello"
-      - "World"
-    ignore-case: true # Optional
+    args:
+      value: 
+        - "Hello"
+        - "World"
+      ignore-case: true # Optional
   - id: contentStartsWith
-    value: "Hello"
+    args:
+      value: "Hello"
 ```
 </CodeGroup>
 
@@ -236,16 +267,19 @@ Check if a user has a certain permission.
 <CodeGroup>
 ```yaml {{ title: 'Usage' }}
 id: hasPermission
-value: #string or array of strings, the permission ID or name
+args:
+  value: #string or array of strings, the permission ID or name
 ```
 ```yaml {{ title: 'Example' }}
 conditions:
   - id: hasPermission
-    value: "MANAGE_MESSAGES" # Permission name
+    args:
+      value: "MANAGE_MESSAGES" # Permission name
   - id: hasPermission
-    value: 
-      - "MANAGE_MESSAGES" # Permission name
-      - "MANAGE_CHANNELS" # Permission name
+    args:
+      value: 
+        - "MANAGE_MESSAGES" # Permission name
+        - "MANAGE_CHANNELS" # Permission name
 ```
 </CodeGroup>
 
@@ -255,18 +289,21 @@ Check if a user has a certain role.
 <CodeGroup>
 ```yaml {{ title: 'Usage' }}
 id: hasRole
-value: #string or array of strings, the role ID or name
-inherit: #boolean, if the role should be inherited from the user (optional)
+args:
+  value: #string or array of strings, the role ID or name
+  inherit: #boolean, if the role should be inherited from the user (optional)
 ```
 ```yaml {{ title: 'Example' }}
 conditions:
   - id: hasRole
-    value: "Admin" # Role ID or name
-    inherit: true # Optional, if the user have a role higher than the specified role, it will be considered as having the role
+    args:
+      value: "Admin" # Role ID or name
+      inherit: true # Optional, if the user have a role higher than the specified role, it will be considered as having the role
   - id: hasRole
-    value: 
-      - "Admin" # Role ID or name
-      - "Moderator" # Role ID or name
+    args:
+      value: 
+        - "Admin" # Role ID or name
+        - "Moderator" # Role ID or name
 ```
 </CodeGroup>
 
@@ -275,16 +312,19 @@ Check if a user has a certain tag.
 <CodeGroup>
 ```yaml {{ title: 'Usage' }}
 id: hasTag
-value: #string or array of strings, the tag ID
+args:
+  value: #string or array of strings, the tag ID
 ```
 ```yaml {{ title: 'Example' }}
 conditions:
   - id: hasTag
-    value: "123456789012345678" # Tag ID
+    args:
+      value: "123456789012345678" # Tag ID
   - id: hasTag
-    value: 
-      - "234567890123456789" # Tag ID
-      - "345678901234567890" # Tag ID
+    args:
+      value: 
+        - "234567890123456789" # Tag ID
+        - "345678901234567890" # Tag ID
 ```
 </CodeGroup>
 
@@ -294,16 +334,19 @@ Check if a message is in a certain channel or category.
 <CodeGroup>
 ```yaml {{ title: 'Usage' }}
 id: inChannel
-value: #string or array of strings, the channel ID, category ID or name
+args:
+  value: #string or array of strings, the channel ID, category ID or name
 ```
 ```yaml {{ title: 'Example' }}
 conditions:
   - id: inChannel
-    value: 
-      - "123456789012345678"
-      - "Example Category"
+    args:
+      value: 
+        - "123456789012345678"
+        - "Example Category"
   - id: inChannel
-    value: "bot-commands"
+    args:
+      value: "bot-commands"
 ```
 </CodeGroup>
 
@@ -350,16 +393,26 @@ conditions:
 ## isExpressionTrue
 Check if an expression is true.
 
+<Note>
+  This condition have a special format to easily use expressions. You can directly use the expression in the `conditions` section without needing to define it in the `args`.
+</Note>
 <CodeGroup>
 ```yaml {{ title: 'Usage' }}
 id: isExpressionTrue
-value: #string, the expression to check
+args:
+  value: #string, the expression to check
 ```
 
 ```yaml {{ title: 'Example' }}
 conditions:
   - id: isExpressionTrue
-    value: "%server_channels% >= 0"
+    args:
+      value: "%server_channels% >= 0"
+```
+
+```yaml {{ title: 'Bonus format' }}
+conditions:
+  - expression: "%server_channels% >= 0"
 ```
 </CodeGroup>
 
@@ -368,12 +421,14 @@ Check if a user is on cooldown for a certain action.
 <CodeGroup>
 ```yaml {{ title: 'Usage' }}
 id: isOnCooldown
-value: #string, the action ID to check cooldown for
+args:
+  value: #string, the action ID to check cooldown for
 ```
 ```yaml {{ title: 'Example' }}
 conditions:
   - id: isOnCooldown
-    value: "exampleAction" # Action ID
+    args:
+      value: "exampleAction" # Action ID
 ```
 </CodeGroup>
 
@@ -394,17 +449,20 @@ Check if a user is a certain user
 <CodeGroup>
 ```yaml {{ title: 'Usage' }}
 id: isUser
-value: #string or array of strings, the user ID
+args:
+  value: #string or array of strings, the user ID
 ```
 
 ```yaml {{ title: 'Example' }}
 conditions:
   - id: isUser
-    value: "123456789012345678" # User ID
+    args:
+      value: "123456789012345678" # User ID
   - id: isUser
-    value: 
-      - "123456789012345678" # User ID
-      - "987654321098765432" # User ID
+    args:
+      value: 
+        - "123456789012345678" # User ID
+        - "987654321098765432" # User ID
 ```
 </CodeGroup>
 
@@ -414,14 +472,17 @@ Check if the content of an action matches a certain regex pattern.
 <CodeGroup>
 ```yaml {{ title: 'Usage' }}
 id: matchesRegex
-value: #string, the regex pattern to check
+args:
+  value: #string, the regex pattern to check
 ```
 ```yaml {{ title: 'Example' }}
 conditions:
   - id: matchesRegex
-    value: "^[a-zA-Z0-9]+$" # Regex pattern
+    args:
+      value: "^[a-zA-Z0-9]+$" # Regex pattern
   - id: matchesRegex
-    value: "^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[a-zA-Z]{2,}$" # Regex pattern for email validation
+    args:
+      value: "^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[a-zA-Z]{2,}$" # Regex pattern for email validation
 ```
 </CodeGroup>
 
@@ -431,13 +492,15 @@ Check if the amount of members in a guild is above a certain number.
 <CodeGroup>
 ```yaml {{ title: 'Usage' }}
 id: memberCountAbove
-amount: #number
+args:
+  amount: #number
 ```
 
 ```yaml {{ title: 'Example' }}
 conditions:
   - id: memberCountAbove
-    amount: 100
+    args:
+      amount: 100
 ```
 </CodeGroup>
 
@@ -447,13 +510,15 @@ Check if the amount of members in a guild is below a certain number.
 <CodeGroup>
 ```yaml {{ title: 'Usage' }}
 id: memberCountBelow
-amount: #number
+args:
+  amount: #number
 ```
 
 ```yaml {{ title: 'Example' }}
 conditions:
   - id: memberCountBelow
-    amount: 100
+    args:
+      amount: 100
 ```
 </CodeGroup>
 
@@ -463,14 +528,16 @@ Check if a meta value is above a certain number. Only works with `number` type.
 <CodeGroup>
 ```yaml {{ title: 'Usage' }}
 id: metaAbove
-key: #string, the meta key to check
-value: #number, the value to check against
+args:
+  key: #string, the meta key to check
+  value: #number, the value to check against
 ```
 ```yaml {{ title: 'Example' }}
 conditions:
   - id: metaAbove
-    key: "exampleMetaKey" # Meta key
-    value: 100 # Value to check against
+    args:
+      key: "exampleMetaKey" # Meta key
+      value: 100 # Value to check against
 ```
 </CodeGroup>
 
@@ -479,14 +546,16 @@ Check if a meta value is below a certain number. Only works with `number` type.
 <CodeGroup>
 ```yaml {{ title: 'Usage' }}
 id: metaBelow
-key: #string, the meta key to check
-value: #number, the value to check against
+args:
+  key: #string, the meta key to check
+  value: #number, the value to check against
 ```
 ```yaml {{ title: 'Example' }}
 conditions:
   - id: metaBelow
-    key: "exampleMetaKey" # Meta key
-    value: 100 # Value to check against
+    args:
+      key: "exampleMetaKey" # Meta key
+      value: 100 # Value to check against
 ```
 </CodeGroup>
 
@@ -495,14 +564,16 @@ Check if a meta value equals a certain value. Only works with `number, string, b
 <CodeGroup>
 ```yaml {{ title: 'Usage' }}
 id: metaEquals
-key: #string, the meta key to check
-value: #string, the value to check against
+args:
+  key: #string, the meta key to check
+  value: #string, the value to check against
 ```
 ```yaml {{ title: 'Example' }}
 conditions:
   - id: metaEquals
-    key: "exampleMetaKey" # Meta key
-    value: "exampleValue" # Value to check against
+    args:
+      key: "exampleMetaKey" # Meta key
+      value: "exampleValue" # Value to check against
 ```
 </CodeGroup>
 
@@ -511,13 +582,15 @@ Check if a meta value includes a certain value. Only works with `list` type.
 <CodeGroup>
 ```yaml {{ title: 'Usage' }}
 id: metaIncludes
-key: #string, the meta key to check
-value: #string, the value to check against
+args:
+  key: #string, the meta key to check
+  value: #string, the value to check against
 ```
 ```yaml {{ title: 'Example' }}
 conditions:
   - id: metaIncludes
-    key: "exampleMetaKey" # Meta key
-    value: "exampleValue" # Value to check against
+    args:
+      key: "exampleMetaKey" # Meta key
+      value: "exampleValue" # Value to check against
 ```
 </CodeGroup>
