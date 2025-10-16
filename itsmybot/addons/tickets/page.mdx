@@ -43,3 +43,22 @@ You can create a unlimited amount of categories. Each category can have a differ
     The amount of tickets.
   </Property>
 </Properties>
+
+## Custom-Id
+<Properties>
+  <Property name="tickets_create_[CategoryID]">
+    Replace [CategoryID] with your category's filename like "ticket-panel.yml" → "ticket_create_ticket-panel"
+  </Property>
+</Properties>
+
+<CodeGroup>
+```yaml {{ title: 'Example' }}
+            - type: action-row
+              components:
+                - type: button
+                  label: "Click Me"
+                  custom-id: "tickets_create_default"
+                  emoji: "📩"
+                  style: 'Secondary'
+```
+</CodeGroup>
