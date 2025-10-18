@@ -44,21 +44,20 @@ You can create a unlimited amount of categories. Each category can have a differ
   </Property>
 </Properties>
 
-## Custom-Id
+## Button Custom ID
+Allows you to have custom buttons to execute various actions of the Tickets addon at any location of the bot
 <Properties>
-  <Property name="tickets_create_[CategoryID]">
-    Replace [CategoryID] with your category's filename like "ticket-panel.yml" → "ticket_create_ticket-panel"
+  <Property name="tickets_create_<category-id>">
+    Replace <category-id> with your category's filename like "categories/support.yml" → "ticket_create_support"
   </Property>
 </Properties>
 
 <CodeGroup>
 ```yaml {{ title: 'Example' }}
-            - type: action-row
-              components:
-                - type: button
-                  label: "Click Me"
-                  custom-id: "tickets_create_default"
-                  emoji: "📩"
-                  style: 'Secondary'
+  - type: button
+    label: "Open a Support Ticket"
+    custom-id: "tickets_create_support"
+    emoji: "📩"
+    style: 'Secondary'
 ```
 </CodeGroup>
